@@ -1,5 +1,5 @@
 from flask import render_template
-from flask.views import View
+from flask.views import View, MethodView
 
 
 class IndexView(View):
