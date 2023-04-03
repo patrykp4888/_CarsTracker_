@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 
-from app.views import IndexView
 from app.config import Config
 
 
@@ -19,5 +18,8 @@ bcrypt = Bcrypt(flask_app)
 db.init_app(app=flask_app)
 migrate.init_app(app=flask_app, db=db)
 
+from .views import IndexView, RegisterView, LoginView
 
 flask_app.add_url_rule('/', view_func=IndexView.as_view('index'))
+flask_app.add_url_rule('/register', view_func=RegisterView.as_view('register'))
+flask_app.add_url_rule('/login', view_func=LoginView.as_view('login'))

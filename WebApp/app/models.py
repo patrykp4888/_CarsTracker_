@@ -1,5 +1,4 @@
-from app import db
-from app import bcrypt
+from app import db, bcrypt
 
 
 class Users(db.Model):
