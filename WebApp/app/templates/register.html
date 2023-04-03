@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "macros/form_render.html" import render_field %}
+
+{% block title %} Register Page {% endblock %}
+{% block content %}
+    <form action="#" method="POST">
+        {% csrf_token %}
+
+        {{ render_field(form.username) }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.confirm_pwd) }}
+        <input type="submit" />
+    </form>
+{% endblock %}
