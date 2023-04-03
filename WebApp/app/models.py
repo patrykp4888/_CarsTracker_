@@ -1,3 +1,5 @@
+import datetime
+
 from app import db, bcrypt
 
 
@@ -5,13 +7,14 @@ class Users(db.Model):
     __tablename__ = "Users"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    surname = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    surname = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(250), nullable=False)    
+    email = db.Column(db.String(120), unique=True, nullable=False)
     profile_id = db.Column(db.Integer, db.ForeignKey('Profiles.profile_id'))
 
     profiles = db.relationship('Profiles', backref='user')
-
 
     def __create_profile(self):
         profile = Profiles()
@@ -23,12 +26,11 @@ class Users(db.Model):
         self.username = username
         self.name = name
         self.surname = surname
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = (bcrypt.generate_password_hash(password)).decode("utf-8", "ignore")
         self.email = email
 
         profile = self.__create_profile()
         self.profile_id = profile.profile_id
-
 
 
 class Profiles(db.Model):
