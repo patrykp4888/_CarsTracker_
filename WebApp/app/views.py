@@ -8,12 +8,16 @@ from .forms import RegisterForm
 
 
 class IndexView(View):
-    def __init__(self):
-        self.welcome_text = "Hello!"
 
     def dispatch_request(self):
-        return render_template("index.html")
+        return render_template("base.html")
     
+
+class HomeView(View):
+
+    def dispatch_request(self):
+        return render_template("home.html")
+
 
 class RegisterView(MethodView):
 
@@ -33,25 +37,35 @@ class RegisterView(MethodView):
         db.session.commit()
 
         return UserStates.CREATED
-
-    def get(self):
-        register_form = RegisterForm(request.method)
-        return render_template("register.html", register_form=register_form)
-
-    def post(self):
-        register_form = RegisterForm(request.method)
+    
+    def __create_registration_form(self):
+        return  RegisterForm(request.form)
+    
+    def __check_user_validity(self, register_form):
         if register_form.validate():
+
             state = self.__register_to_db(register_form=register_form)
 
             if state == UserStates.ALREADY_EXISTING:
-                flash("User with such email or username already exists!")
+                flash("User with such email or username already exists!", category='error')
                 return render_template('register.html', register_form=RegisterForm())
+            
             elif state == UserStates.CREATED:
-                flash("User account successfully created!")
-                redirect(url_for('login'))
+                flash("User account successfully created!", category='success')
+                return redirect(url_for('login'))
+        else:
+            flash('Form data is not valid!', category='error')
 
-        flash('Form data is not valid!')
-        return render_template('register.html', register_form=RegisterForm())    
+        return render_template('register.html', register_form=RegisterForm())
+
+
+    def get(self):
+        register_form = self.__create_registration_form()
+        return render_template("register.html", register_form=register_form)
+
+    def post(self):
+        register_form = self.__create_registration_form()
+        return self.__check_user_validity(register_form=register_form)  
 
 
 class LoginView(MethodView):

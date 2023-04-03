@@ -4,12 +4,12 @@
 {% block title %} Register Page {% endblock %}
 {% block content %}
     <form action="#" method="POST">
-        {% csrf_token %}
+        {{ csrf_input }}
 
-        {{ render_field(form.username) }}
-        {{ render_field(form.email) }}
-        {{ render_field(form.password) }}
-        {{ render_field(form.confirm_pwd) }}
+        {{ render_field(register_form.username) }}
+        {{ render_field(register_form.email) }}
+        {{ render_field(register_form.password) }}
+        {{ render_field(register_form.confirm_password) }}
         <input type="submit" />
     </form>
 {% endblock %}
