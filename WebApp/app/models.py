@@ -38,11 +38,24 @@ class Profiles(db.Model):
     __tablename__ = "Profiles"
 
     profile_id = db.Column(db.Integer, primary_key=True)
-    total_searched_cars = db.Column(db.Integer, nullable=False)
-    registration_date = db.Column(db.DateTime, nullable=False)
+    total_searched_cars = db.Column(db.Integer, nullable=True)
+    registration_date = db.Column(db.DateTime, nullable=True)
     phone_num_id = db.Column(db.Integer, db.ForeignKey('PhoneNumbers.phone_num_id'))
 
     phone_numbers = db.relationship('PhoneNumbers', backref='profile')
+
+    def __create_phone_number_object(self):
+        phonenumber = PhoneNumbers()
+        db.session.add(phonenumber)
+        db.session.commit()
+        return phonenumber
+
+    def __init__(self, total_searched_cars=0, registration_date=datetime.datetime.now()):
+        self.total_searched_cars = total_searched_cars
+        self.registration_date = registration_date
+
+        phonenumber = self.__create_phone_number_object()
+        self.phone_num_id = phonenumber.phone_num_id
 
 
 class PhoneNumbers(db.Model):

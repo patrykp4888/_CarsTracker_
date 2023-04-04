@@ -11,19 +11,13 @@ from .forms import RegisterForm, LoginForm
 class IndexView(View):
 
     def dispatch_request(self):
-        if request.method == "GET":
-            return render_template("base.html", user=current_user)
-        elif request.method == "POST":
-            return render_template("base.html", user=current_user)
+        return render_template("home.html", user=current_user)
     
 
 class HomeView(View):
 
     def dispatch_request(self):
-        if request.method == "GET":
-            return render_template("home.html", user=current_user)
-        elif request.method == "POST":
-            return render_template("home.html", user=current_user)
+        return render_template("home.html", user=current_user)
 
 
 class RegisterView(MethodView):
@@ -77,17 +71,18 @@ class RegisterView(MethodView):
 
 class LoginView(MethodView):
 
-    def get(self):
-        login_form = LoginForm(request.form)
-        return render_template("login.html", login_form=login_form, user=current_user)
+    def __create_login_form(self):
+        return LoginForm(request.form)
 
-    def post(self):
-        login_form = LoginForm(request.form)
+    def __find_user(self, username):
+        return Users.query.filter_by(username=username).first()
+
+    def __check_user_validity(self, login_form):
         if login_form.validate():
             username = request.form.get('username')
             password = request.form.get('password')
 
-            user = Users.query.filter_by(username=username).first()
+            user = self.__find_user(username)
             if user:
                 if bcrypt.check_password_hash(user.password, password=password):
                     flash('Logged in successfully!', category='success')
@@ -96,9 +91,17 @@ class LoginView(MethodView):
                 else:
                     flash('Incorrect password, try again!', category='error')
             else:
-                flash('Email does not exist!', category='error')
+                flash('Username does not exist!', category='error')
 
         return render_template('login.html', login_form=login_form, user=current_user)
+
+    def get(self):
+        login_form = LoginForm(request.form)
+        return render_template("login.html", login_form=login_form, user=current_user)
+
+    def post(self):
+        login_form = self.__create_login_form()
+        return self.__check_user_validity(login_form=login_form)
 
 
 class LogoutView(View):
