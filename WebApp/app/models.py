@@ -1,9 +1,10 @@
+from flask_login import UserMixin
 import datetime
 
 from app import db, bcrypt
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __tablename__ = "Users"
 
     id = db.Column(db.Integer, primary_key=True)

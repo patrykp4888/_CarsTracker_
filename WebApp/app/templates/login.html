@@ -1,6 +1,13 @@
 {% extends "base.html" %}
-{% block title %} Login Page {% endblock %}
+{% from "macros/form_render.html" import render_field %}
 
+{% block title %} Login Page {% endblock %}
 {% block content %}
-<h1>Login Page</h1>
+    <form action="#" method="POST">
+        {{ csrf_input }}
+
+        {{ render_field(login_form.username) }}
+        {{ render_field(login_form.password) }}
+        <input type="submit" />
+    </form>
 {% endblock %}
