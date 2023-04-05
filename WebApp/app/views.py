@@ -53,7 +53,7 @@ class RegisterView(MethodView):
             
             elif state == UserStates.CREATED:
                 flash("User account successfully created!", category='success')
-                return redirect(url_for('login'), user=current_user)
+                return redirect(url_for('login'))
         else:
             flash('Form data is not valid!', category='error')
 
@@ -110,3 +110,9 @@ class LogoutView(View):
         flash('Goodbye!')
         logout_user()
         return redirect(url_for('login'))
+    
+
+class ProfileView(MethodView):
+
+    def dispatch_request(self):
+        return render_template("profile.html", user=current_user)
