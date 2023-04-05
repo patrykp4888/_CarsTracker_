@@ -1,4 +1,43 @@
 {% extends "base.html" %}
 
+{% block style %}
+<link href="/static/css/signin.css" rel="stylesheet">
+{% endblock %}
+
 {% block title %} Home Page {% endblock %}
-{% block content %} Home Page Content Here {% endblock %}
+
+{% block content %}
+<body class="text-center">
+<main class="form-signin">
+<form action="#" method="POST">
+    <h1 class="h3 mb-3 fw-normal">Pick a car</h1>
+
+  <select class="form-control">
+    <option>Brand</option>
+    <option>Audi</option>
+  </select>
+  <select class="form-control">
+    <option>Model</option>
+    <option>A3</option>
+    <option>A4</option>
+    <option>A5</option>
+    <option></option>
+  </select>
+  <select class="form-control">
+    <option>Min Price</option>
+  </select>
+  <select class="form-control">
+    <option>Max Price</option>
+  </select>
+  <select class="form-control">
+    <option>Min mileage</option>
+  </select>
+  <select class="form-control">
+    <option>Max mileage</option>
+  </select>
+</form>
+</main>
+</body>
+
+
+  {% endblock %}
