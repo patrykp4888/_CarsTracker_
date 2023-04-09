@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
 from app.config import Config
 
@@ -13,6 +14,7 @@ flask_app = Flask(__name__)
 flask_app.config.from_object(Config)
 flask_app.secret_key = Config.SECRET_KEY
 
+csrf = CSRFProtect(flask_app)
 migrate = Migrate()
 bcrypt = Bcrypt(flask_app)
 

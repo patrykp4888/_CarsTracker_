@@ -1,5 +1,4 @@
 from wtforms import (
-    Form,
     StringField,
     IntegerField,
     PasswordField,
@@ -7,12 +6,13 @@ from wtforms import (
     SelectField,
     validators,
 )
+from flask_wtf import FlaskForm
 from datetime import date
 
 from .models.cars import Brands, Models
 
 
-class RegisterForm(Form):
+class RegisterForm(FlaskForm):
     username = StringField(
         "Username", [validators.Length(min=4, max=100), validators.DataRequired()]
     )
@@ -29,12 +29,12 @@ class RegisterForm(Form):
     confirm_password = PasswordField("Repeat password")
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     username = StringField("Username", [validators.DataRequired()])
     password = PasswordField("Password", [validators.DataRequired()])
 
 
-class CarSearchForm(Form):
+class CarSearchForm(FlaskForm):
     brand = SelectField("Brand", [validators.DataRequired()])
     model = SelectField("Model", [validators.DataRequired()])
     min_production_year = IntegerField(
@@ -60,11 +60,11 @@ class CarSearchForm(Form):
         [validators.DataRequired(), validators.NumberRange(min=0, max=2_000_000)],
     )
 
-    def __init__(self):
-        super().__init__()
-        self.brand.choices = [
-            (brand.brand_id, brand.brand) for brand in Brands.query.all()
-        ]
-        self.model.choices = [
-            (model.model_id, model.model) for model in Models.query.all()
-        ]
+    # def __init__(self):
+    #     super().__init__()
+    #     self.brand.choices = [
+    #         (brand.brand_id, brand.brand) for brand in Brands.query.all()
+    #     ]
+    #     self.model.choices = [
+    #         (model.model_id, model.model) for model in Models.query.all()
+    #     ]

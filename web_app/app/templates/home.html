@@ -12,7 +12,7 @@
 <h1>Car Search Form</h1>
 <form action="#" method="POST">
 
-  {{ csrf_input }}
+  {{ car_search_form.csrf_token }}
         
   {{ render_field(car_search_form.brand) }}
   {{ render_field(car_search_form.model) }}

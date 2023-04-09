@@ -12,7 +12,7 @@
     <form action="#" method="POST">
         <h1 class="h3 mb-3 fw-normal">Login</h1>
 
-        {{ csrf_input }}
+        {{ login_form.csrf_token }}
         
         {{ render_field(login_form.username) }}
         {{ render_field(login_form.password) }}
