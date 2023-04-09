@@ -15,7 +15,9 @@ class IndexView(View):
 
 class HomeView(View):
     def __create_car_search_form(self):
-        return CarSearchForm(request.form)
+        car_search_form = CarSearchForm(request.form)
+        car_search_form.csrf_token.data = request.cookies["csrf_token"]
+        return car_search_form
 
     def __check_form_validity(self, car_search_form):
         if car_search_form.validate():
@@ -59,7 +61,9 @@ class RegisterView(MethodView):
         return UserStates.CREATED
 
     def __create_registration_form(self):
-        return RegisterForm(request.form)
+        register_form = RegisterForm(request.form)
+        register_form.csrf_token.data = request.cookies["csrf_token"]
+        return register_form
 
     def __check_user_validity(self, register_form):
         if register_form.validate():
@@ -100,7 +104,9 @@ class RegisterView(MethodView):
 
 class LoginView(MethodView):
     def __create_login_form(self):
-        return LoginForm(request.form)
+        login_form = LoginForm(request.form)
+        login_form.csrf_token.data = request.cookies["csrf_token"]
+        return login_form
 
     def __find_user(self, username):
         return Users.query.filter_by(username=username).first()

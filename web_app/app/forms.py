@@ -4,6 +4,7 @@ from wtforms import (
     PasswordField,
     EmailField,
     SelectField,
+    HiddenField,
     validators,
 )
 from flask_wtf import FlaskForm
@@ -27,12 +28,12 @@ class RegisterForm(FlaskForm):
         ],
     )
     confirm_password = PasswordField("Repeat password")
-
+    csrf_token = HiddenField()
 
 class LoginForm(FlaskForm):
     username = StringField("Username", [validators.DataRequired()])
     password = PasswordField("Password", [validators.DataRequired()])
-
+    csrf_token = HiddenField()
 
 class CarSearchForm(FlaskForm):
     brand = SelectField("Brand", [validators.DataRequired()])
@@ -59,6 +60,8 @@ class CarSearchForm(FlaskForm):
         "Maximal Mileage",
         [validators.DataRequired(), validators.NumberRange(min=0, max=2_000_000)],
     )
+    csrf_token = HiddenField()
+
 
     # def __init__(self):
     #     super().__init__()
