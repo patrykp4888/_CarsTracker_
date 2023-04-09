@@ -16,7 +16,7 @@ class IndexView(View):
 class HomeView(View):
     def __create_car_search_form(self):
         return CarSearchForm(request.form)
-    
+
     def __check_form_validity(self, car_search_form):
         if car_search_form.validate():
             brand = request.form.get("brand")
@@ -31,8 +31,10 @@ class HomeView(View):
 
     def get(self):
         car_search_form = self.__create_car_search_form()
-        return render_template("home.html", car_search_form=car_search_form, user=current_user)
-    
+        return render_template(
+            "home.html", car_search_form=car_search_form, user=current_user
+        )
+
     def post(self):
         car_search_form = self.__create_car_search_form()
         return self.__check_form_validity(car_search_form=car_search_form)
@@ -68,7 +70,9 @@ class RegisterView(MethodView):
                     "User with such email or username already exists!", category="error"
                 )
                 return render_template(
-                    "register.html", register_form=self.__create_registration_form(), user=current_user
+                    "register.html",
+                    register_form=self.__create_registration_form(),
+                    user=current_user,
                 )
 
             elif state == UserStates.CREATED:
@@ -78,7 +82,9 @@ class RegisterView(MethodView):
             flash("Form data is not valid!", category="error")
 
         return render_template(
-            "register.html", register_form=self.__create_registration_form(), user=current_user
+            "register.html",
+            register_form=self.__create_registration_form(),
+            user=current_user,
         )
 
     def get(self):

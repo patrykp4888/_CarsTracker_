@@ -22,7 +22,9 @@ migrate.init_app(app=flask_app, db=db)
 from .views import IndexView, RegisterView, LoginView, LogoutView, HomeView, ProfileView
 
 flask_app.add_url_rule("/", view_func=IndexView.as_view("index"), methods=["GET"])
-flask_app.add_url_rule("/home", view_func=HomeView.as_view("home"), methods=["GET"])
+flask_app.add_url_rule(
+    "/home", view_func=HomeView.as_view("home"), methods=["GET", "POST"]
+)
 flask_app.add_url_rule(
     "/register", view_func=RegisterView.as_view("register"), methods=["GET", "POST"]
 )

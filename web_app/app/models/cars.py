@@ -16,5 +16,3 @@ class Models(db.Model):
     model_id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(120), nullable=False)
     brand_id = db.Column(db.Integer, db.ForeignKey("Brands.brand_id"))
-
-
