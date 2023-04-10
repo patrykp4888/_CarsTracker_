@@ -5,18 +5,20 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import db, bcrypt
 from .states import UserStates
 from .models.users import Users
+from .models.cars import Brands, Models
 from .forms import RegisterForm, LoginForm, CarSearchForm
 
 
 class IndexView(View):
     def dispatch_request(self):
-        return render_template("home.html", user=current_user)
+        return render_template("profile.html", user=current_user)
 
 
-class HomeView(View):
+class HomeView(MethodView):
     def __create_car_search_form(self):
         car_search_form = CarSearchForm(request.form)
-        car_search_form.csrf_token.data = request.cookies["csrf_token"]
+        car_search_form.brand.choices = [(brand.brand_id, brand.brand) for brand in Brands.query.all()]
+        car_search_form.model.choices = [(model.model_id, model.model) for model in Models.query.all()]
         return car_search_form
 
     def __check_form_validity(self, car_search_form):
@@ -31,12 +33,14 @@ class HomeView(View):
         else:
             return "[ERROR]"
 
+    @login_required
     def get(self):
         car_search_form = self.__create_car_search_form()
         return render_template(
             "home.html", car_search_form=car_search_form, user=current_user
         )
 
+    @login_required
     def post(self):
         car_search_form = self.__create_car_search_form()
         return self.__check_form_validity(car_search_form=car_search_form)
@@ -62,7 +66,6 @@ class RegisterView(MethodView):
 
     def __create_registration_form(self):
         register_form = RegisterForm(request.form)
-        register_form.csrf_token.data = request.cookies["csrf_token"]
         return register_form
 
     def __check_user_validity(self, register_form):
@@ -105,7 +108,6 @@ class RegisterView(MethodView):
 class LoginView(MethodView):
     def __create_login_form(self):
         login_form = LoginForm(request.form)
-        login_form.csrf_token.data = request.cookies["csrf_token"]
         return login_form
 
     def __find_user(self, username):
@@ -139,6 +141,8 @@ class LoginView(MethodView):
 
 
 class LogoutView(View):
+
+    @login_required
     def dispatch_request(self):
         flash("Goodbye!")
         logout_user()
@@ -146,5 +150,7 @@ class LogoutView(View):
 
 
 class ProfileView(MethodView):
+
+    @login_required
     def dispatch_request(self):
         return render_template("profile.html", user=current_user)

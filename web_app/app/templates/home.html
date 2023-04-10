@@ -2,18 +2,17 @@
 {% from "macros/form_render.html" import render_field %}
 
 {% block style %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
 {% endblock %}
 
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
-
-<h1>Car Search Form</h1>
 <form action="#" method="POST">
+  <h1>Car Search Form</h1>
 
-  {{ car_search_form.csrf_token }}
-        
+  {{car_search_form.csrf_token}}
+
   {{ render_field(car_search_form.brand) }}
   {{ render_field(car_search_form.model) }}
   {{ render_field(car_search_form.min_production_year) }}
@@ -21,8 +20,7 @@
   {{ render_field(car_search_form.min_mileage) }}
   {{ render_field(car_search_form.max_mileage) }}
 
+  <button type="submit">Search</button>
+
 </form>
-
 {% endblock %}
-
-<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>

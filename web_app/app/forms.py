@@ -10,8 +10,6 @@ from wtforms import (
 from flask_wtf import FlaskForm
 from datetime import date
 
-from .models.cars import Brands, Models
-
 
 class RegisterForm(FlaskForm):
     username = StringField(
@@ -34,6 +32,7 @@ class LoginForm(FlaskForm):
     username = StringField("Username", [validators.DataRequired()])
     password = PasswordField("Password", [validators.DataRequired()])
     csrf_token = HiddenField()
+
 
 class CarSearchForm(FlaskForm):
     brand = SelectField("Brand", [validators.DataRequired()])
@@ -61,13 +60,3 @@ class CarSearchForm(FlaskForm):
         [validators.DataRequired(), validators.NumberRange(min=0, max=2_000_000)],
     )
     csrf_token = HiddenField()
-
-
-    # def __init__(self):
-    #     super().__init__()
-    #     self.brand.choices = [
-    #         (brand.brand_id, brand.brand) for brand in Brands.query.all()
-    #     ]
-    #     self.model.choices = [
-    #         (model.model_id, model.model) for model in Models.query.all()
-    #     ]
