@@ -1,57 +1,28 @@
-* {
-	box-sizing: border-box;
+.form-signin {
+    padding: 15px;
 }
 
-body {
-	margin: 0;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	color: #333;
-	background-color: #fff;
+.form-signin .checkbox {
+    font-weight: 400;
 }
 
-header {
-	background-color: #ffc14d;
-	padding: 10px 0;
+.form-signin .form-floating:focus-within {
+    z-index: 2;
 }
 
-header .container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.form-signin input[type="email"],
+.form-signin input[type="password"] {
+    direction: ltr;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
-header h1 {
-	margin: 0;
-	font-size: 2.5em;
-	color: #fff;
+.form-signin input[type="checkbox"] {
+    margin-top: 0px;
+    margin-right: 5px;
+    vertical-align: text-bottom;
 }
 
-nav ul {
-	display: flex;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-nav li {
-	margin: 0 10px;
-}
-
-nav li a {
-	color: #fff;
-	text-decoration: none;
-	font-size: 1.2em;
-}
-
-nav li a:hover {
-	text-decoration: underline;
-}
-
-.hero {
-	background-image: url("/web_app/app/static/images/car.jpg");
-	background-size: cover;
-	background-position: center;
-	color: #fff;
-	text-align: center;
-	padding: 80;
+.form-signin button[type="submit"] {
+    margin-top: 20px;
 }

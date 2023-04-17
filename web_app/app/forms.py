@@ -1,6 +1,7 @@
 from wtforms import (
     StringField,
     IntegerField,
+    BooleanField,
     PasswordField,
     EmailField,
     SelectField,
@@ -31,6 +32,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField("Username", [validators.DataRequired()])
     password = PasswordField("Password", [validators.DataRequired()])
+    remember_me = BooleanField("Remember me", [validators.Optional()])
     csrf_token = HiddenField()
 
 
