@@ -7,6 +7,10 @@ import scrapy
 
 
 class ScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    NAME = scrapy.Field()
+    URL = scrapy.Field()
+    # BRAND = scrapy.Field()
+    # MODEL = scrapy.Field()
+    # PRODUCTION_YEAR = scrapy.Field()
+    # MILEAGE = scrapy.Field()
+    # PRICE = scrapy.Field()
