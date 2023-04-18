@@ -36,6 +36,21 @@ class LoginForm(FlaskForm):
     csrf_token = HiddenField()
 
 
+class ProfileForm(FlaskForm):
+    username = StringField("New username")
+    email = EmailField("New email")
+    first_name = StringField("First Name")
+    last_name = StringField("Last Name")
+    csrf_token = HiddenField()
+
+
+class PasswordForm(FlaskForm):
+    old_password = StringField("Old Password")
+    new_password = StringField("New Password")
+    confirm_new_password = StringField("Confirm New Password")
+    csrf_token = HiddenField()
+
+
 class CarSearchForm(FlaskForm):
     brand = SelectField("Brand", [validators.DataRequired()])
     model = SelectField("Model", [validators.DataRequired()])
@@ -62,3 +77,4 @@ class CarSearchForm(FlaskForm):
         [validators.DataRequired(), validators.NumberRange(min=0, max=2_000_000)],
     )
     csrf_token = HiddenField()
+

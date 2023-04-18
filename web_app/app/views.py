@@ -6,12 +6,13 @@ from app import db, bcrypt
 from .states import UserStates
 from .models.users import Users
 from .models.cars import Brands, Models
-from .forms import RegisterForm, LoginForm, CarSearchForm
+from .forms import RegisterForm, LoginForm, ProfileForm, PasswordForm, CarSearchForm
 
 
 class IndexView(View):
     def dispatch_request(self):
-        return render_template("profile.html", user=current_user)
+        login_form = LoginForm(request.form)
+        return render_template("login.html", login_form=login_form, user=current_user)
 
 
 class HomeView(MethodView):
@@ -151,6 +152,16 @@ class LogoutView(View):
 
 class ProfileView(MethodView):
 
+    def __create_profile_form(self):
+        profile_form = ProfileForm(request.form)
+        return profile_form
+
+    def __create_password_form(self):
+        password_form = PasswordForm(request.form)
+        return password_form
+
     @login_required
-    def dispatch_request(self):
-        return render_template("profile.html", user=current_user)
+    def get(self):
+        profile_form = self.__create_profile_form()
+        password_form = self.__create_password_form()
+        return render_template("profile.html",profile_form=profile_form, password_form=password_form, user=current_user)
