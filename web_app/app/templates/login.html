@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "macros/form_render.html" import render_field %}
+
+{% block style %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %} Login Page {% endblock %}
+
+{% block content %}
+    <body class="text-center">
+        <main class="form-signin d-flex justify-content-center align-items-center">
+            <form action="#" method="POST" class="w-100" style="max-width: 330px;">
+                <h1 class="h3 mb-3 fw-normal">Login</h1>
+
+                {{ login_form.csrf_token }}
+
+                <div class="form-floating">
+                    {{ render_field(login_form.username, class="form-control") }}
+                </div>
+
+                <div class="form-floating">
+                    {{ render_field(login_form.password, class="form-control") }}
+                </div>
+
+                <div class="checkbox mb-3">
+                    {{ render_field(login_form.remember_me, class="form-check-input") }}
+                </div>
+
+                <button class="w-100 btn-lg btn-primary" type="submit">Log in</button>
+                <p class="mt-5 mb-3 text-muted">@ 2023</p>
+            </form>
+        </main>
+    </body>
+{% endblock %}
+
+
+
+
+
+
+
+

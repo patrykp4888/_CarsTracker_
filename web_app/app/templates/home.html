@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "macros/form_render.html" import render_field %}
+
+{% block style %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+    <body class="text-center">
+    <main class="form-signin">
+        <form action="#" method="POST">
+            <h1 class="h3 mb-3 fw-normal">Car Search Form</h1>
+
+            {{ car_search_form.csrf_token }}
+
+            {{ render_field(car_search_form.brand, class="form-control") }}
+
+            {{ render_field(car_search_form.model, class="form-control") }}
+
+            {{ render_field(car_search_form.min_production_year, class="form-control") }}
+
+            {{ render_field(car_search_form.max_production_year, class="form-control") }}
+
+            {{ render_field(car_search_form.min_mileage, class="form-control") }}
+
+            {{ render_field(car_search_form.max_mileage, class="form-control") }}
+
+            <button class="w-100 btn-lg btn-primary" type="submit">Search</button>
+        </form>
+    </main>
+    </body>
+{% endblock %}
