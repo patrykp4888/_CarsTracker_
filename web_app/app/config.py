@@ -6,5 +6,5 @@
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:admin@localhost:5432/cars_tracker"
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@db:5432/cars_tracker"
     SECRET_KEY = "secretkey"

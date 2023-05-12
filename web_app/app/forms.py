@@ -29,6 +29,7 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField("Repeat password")
     csrf_token = HiddenField()
 
+
 class LoginForm(FlaskForm):
     username = StringField("Username", [validators.DataRequired()])
     password = PasswordField("Password", [validators.DataRequired()])
@@ -77,4 +78,3 @@ class CarSearchForm(FlaskForm):
         [validators.DataRequired(), validators.NumberRange(min=0, max=2_000_000)],
     )
     csrf_token = HiddenField()
-

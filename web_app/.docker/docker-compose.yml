@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile.app
+    ports: 
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:12.5
+    container_name: db
+    environment:
+      - POSTGRES_DB=cars_tracker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 30s
+      retries: 6
+    restart: always
+
+
+  scraper:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile.scrapy
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+
+  

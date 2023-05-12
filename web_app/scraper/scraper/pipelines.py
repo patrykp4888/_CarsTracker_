@@ -1,13 +1,29 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+import psycopg2
 
 
-# useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+class PostgreSQLPipeline:
+    def __init__(self):
+        self.create_connection()
 
+    def create_connection(self):
+        self.connection = psycopg2.connect(
+            host="db", database="cars_tracker", user="postgres", password="postgres"
+        )
 
-class ScraperPipeline:
+        self.cursor = self.connection.cursor()
+
     def process_item(self, item, spider):
+        self.store_db(item)
         return item
+
+    def store_db(self, item):
+        try:
+            self.cursor.execute(
+                """
+                INSERT INTO "ScrapedCarsData" (title, prod_year, price, url) values (%s, %s,%s, %s)""",
+                (item["title"], item["prod_year"], item["price"], item["url"]),
+            )
+        except BaseException as e:
+            print(e)
+        else:
+            self.connection.commit()

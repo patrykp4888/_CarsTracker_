@@ -18,8 +18,12 @@ class IndexView(View):
 class HomeView(MethodView):
     def __create_car_search_form(self):
         car_search_form = CarSearchForm(request.form)
-        car_search_form.brand.choices = [(brand.brand_id, brand.brand) for brand in Brands.query.all()]
-        car_search_form.model.choices = [(model.model_id, model.model) for model in Models.query.all()]
+        car_search_form.brand.choices = [
+            (brand.brand_id, brand.brand) for brand in Brands.query.all()
+        ]
+        car_search_form.model.choices = [
+            (model.model_id, model.model) for model in Models.query.all()
+        ]
         return car_search_form
 
     def __check_form_validity(self, car_search_form):
@@ -142,7 +146,6 @@ class LoginView(MethodView):
 
 
 class LogoutView(View):
-
     @login_required
     def dispatch_request(self):
         flash("Goodbye!")
@@ -151,7 +154,6 @@ class LogoutView(View):
 
 
 class ProfileView(MethodView):
-
     def __create_profile_form(self):
         profile_form = ProfileForm(request.form)
         return profile_form
@@ -164,4 +166,9 @@ class ProfileView(MethodView):
     def get(self):
         profile_form = self.__create_profile_form()
         password_form = self.__create_password_form()
-        return render_template("profile.html",profile_form=profile_form, password_form=password_form, user=current_user)
+        return render_template(
+            "profile.html",
+            profile_form=profile_form,
+            password_form=password_form,
+            user=current_user,
+        )
