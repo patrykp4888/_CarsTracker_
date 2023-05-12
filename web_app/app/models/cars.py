@@ -18,13 +18,11 @@ class Models(db.Model):
     brand_id = db.Column(db.Integer, db.ForeignKey("Brands.brand_id"))
 
 
-class Offers(db.Model):
-    __tablename__ = "Offers"
+class ScrapedCarsData(db.Model):
+    __tablename__ = "ScrapedCarsData"
 
     offer_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    prod_year = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.String(200), nullable=False)
     url = db.Column(db.String(200), nullable=False)
-
-    def __init__(self, name, url):
-        self.name = name
-        self.url = url

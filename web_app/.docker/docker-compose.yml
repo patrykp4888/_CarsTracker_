@@ -7,7 +7,9 @@ services:
       dockerfile: .docker/Dockerfile.app
     ports: 
       - "5000:5000"
-
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:12.5
@@ -33,7 +35,8 @@ services:
       context: ../
       dockerfile: .docker/Dockerfile.scrapy
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 
 

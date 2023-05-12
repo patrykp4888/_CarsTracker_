@@ -3,25 +3,27 @@ import psycopg2
 
 class PostgreSQLPipeline:
     def __init__(self):
-        hostname = "db"
-        username = "postgres"
-        password = "postgres"
-        database = "cars_tracker"
-        port = "5432"
+        self.create_connection()
 
+    def create_connection(self):
         self.connection = psycopg2.connect(
-            host=hostname, user=username, password=password, dbname=database, port=port
+            host="db", database="cars_tracker", user="postgres", password="postgres"
         )
+
         self.cursor = self.connection.cursor()
 
     def process_item(self, item, spider):
-        self.cursor.execute(
-            """INSERT INTO Offers (name, url) values (%s, %s)""",
-            (item[NAME], item[URL]),
-        )
-        self.connection.commit()
+        self.store_db(item)
         return item
 
-    def close_spider(self, spider):
-        self.cursor.close()
-        self.connection.close()
+    def store_db(self, item):
+        try:
+            self.cursor.execute(
+                """
+                INSERT INTO "ScrapedCarsData" (title, prod_year, price, url) values (%s, %s,%s, %s)""",
+                (item["title"], item["prod_year"], item["price"], item["url"]),
+            )
+        except BaseException as e:
+            print(e)
+        else:
+            self.connection.commit()
