@@ -2,3 +2,6 @@ itemadapter==0.8.0
 Scrapy==2.8.0
 SQLAlchemy==2.0.8
 psycopg2-binary==2.9.5
+Flask==2.2.3
+Celery==5.3.0
+Redis==4.5.5

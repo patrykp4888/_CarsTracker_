@@ -10,6 +10,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      scraper:
+        condition: service_started
 
   db:
     image: postgres:12.5
@@ -20,8 +22,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
+    # volumes:
+    #   - ./data/db:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -29,15 +31,29 @@ services:
       retries: 6
     restart: always
 
-
   scraper:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile.scrapy
+    ports: 
+      - "5100:5100"
+    depends_on:
+      db:
+        condition: service_healthy
+      celery:
+        condition: service_started
+
+  celery:
     build:
       context: ../
       dockerfile: .docker/Dockerfile.scrapy
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
+    command: ['celery', '-A', 'web.celery_queue.celery_app', 'worker', '-l', 'info']
 
-
-  
+  redis:
+    image: redis:7.0.11-bullseye

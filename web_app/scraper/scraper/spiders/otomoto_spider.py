@@ -6,12 +6,12 @@ from ..params import UrlParameters
 class OtomotoSpider(scrapy.Spider):
     name = "otomoto_spider"
     allowed_domains = ["otomoto.pl"]
-    start_urls = [
-        f"https://www.otomoto.pl/osobowe{UrlParameters.URL_BRAND}{UrlParameters.URL_MODEL}{UrlParameters.URL_MIN_PRODUCTION_YEAR}{UrlParameters.URL_MIN_PRICE}{UrlParameters.URL_MAX_PRICE}{UrlParameters.URL_MAX_PRODUCTION_YEAR}{UrlParameters.URL_MIN_MILEAGE}{UrlParameters.URL_MAX_MILEAGE}"
-    ]
+    start_urls = ["https://otomoto.pl"]
 
     def parse(self, response):
         cars = response.css("article.ooa-dmrg7i")
+
+        self.logger.info("HELLO WORLD")
 
         for car in cars:
             yield {

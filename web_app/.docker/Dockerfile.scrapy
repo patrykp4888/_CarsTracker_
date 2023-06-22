@@ -2,6 +2,8 @@ FROM python:3.10-alpine
 WORKDIR /scraper
 COPY .requirements/requirements-scrapy.txt .
 RUN pip install --upgrade pip && pip install -r requirements-scrapy.txt
-COPY . .
-WORKDIR /scraper/scraper
-CMD ["python", "-m", "scrapy", "crawl", "otomoto_spider"]
+COPY scraper/ .
+ENV PYTHONPATH=.
+CMD ["python", "web/app.py"]
+# WORKDIR /scraper/scraper
+# CMD ["python", "-m", "scrapy", "crawl", "otomoto_spider"]
